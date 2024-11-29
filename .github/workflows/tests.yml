@@ -1,4 +1,4 @@
-name: Tests and Linting
+name: Run Tests and Lint
 
 on:
   push:
@@ -7,38 +7,37 @@ on:
       - release
   pull_request:
     branches:
-      - main
+      - master
       - release
       - develop
 
 jobs:
-  tests:
+  build:
     runs-on: ubuntu-latest
     env:
       SNP: "Панченко Никита Юрьевич"
       GROUP_NUMBER: "M3111"
     steps:
-      - name: Check out repository
+      - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          ref: tests
-      - name: Print Information
+
+      - name: Display Author Info
         run: |
-          echo "ФИО: ${{ env.SNP }}"
-          echo "Номер группы: ${{ env._GROUP_NUMBER }}"
-          echo "Ник на Github: ${{ github.actor }}"
-      - name: Set up Python
+          echo "Author: ${{ env.SNP }}"
+          echo "Group: ${{ env.GROUP_NUMBER }}"
+          echo "GitHub Nickname: ${{ github.actor }}"
+
+      - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
-      - name: Install Dependencies
+          python-version: "3.10"
+
+      - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run Tests
-        run: python -m unittest discover tests
-        if: ${{ failure() }}
-        continue-on-error: false
-      - name: Check code style
-        run: black --check .
-      - name: Format Code (optional)
-        run: black .
-        if: ${{ failure() }}
+
+      - name: Run unit tests
+        run: python -m unittest module_tests/test_calculate.py
+
+      - name: Run black (style check)
+        run: |
+          black . --check
