@@ -1,0 +1,2 @@
+unittest
+black==24.10.0
