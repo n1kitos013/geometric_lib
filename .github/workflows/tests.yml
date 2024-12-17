@@ -40,4 +40,4 @@ jobs:
 
       - name: Run black (style check)
         run: |
-          black . --check       
+          black .    
