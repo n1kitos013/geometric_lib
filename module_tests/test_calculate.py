@@ -1,7 +1,7 @@
 import sys
 import unittest
 
-sys.path.append("/Users/DOT/Documents/geometric_lib")
+sys.path.append("/Users/User/geometric_lib")
 import calculate
 
 
