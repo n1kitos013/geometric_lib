@@ -1,0 +1,43 @@
+name: Run Tests and Lint
+
+on:
+  push:
+    branches:
+      - main
+      - release
+  pull_request:
+    branches:
+      - master
+      - release
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SNP: "PANCHENKO NIKITA"
+      GROUP_NUMBER: "M3111"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Display Author Info
+        run: |
+          echo "Author: ${{ env.SNP }}"
+          echo "Group: ${{ env.GROUP_NUMBER }}"
+          echo "GitHub Nickname: ${{ github.actor }}"
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: python -m unittest module_tests/test_calculate.py
+
+      - name: Run black (style check)
+        run: |
+          black .    
